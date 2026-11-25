@@ -10,8 +10,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  nitro: { preset: "netlify" },
   tanstackStart: {
-    // Redirect TanStack Start's bundled server entry...
+    // Redirect TanStack Start's bundled server entry ...
     server: { entry: "server" },
   },
 });
