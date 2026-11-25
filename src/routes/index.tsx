@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Viewer3D } from "@/components/Viewer3D";
 import {
-  buildOrderMessage, colors, creatorPhoto, fabrics, finishes, gallery, levels, models, PHONE,
-  universes, whatsappLink, type Model, type Order, type Universe,
+  buildOrderMessage, colors, creatorPhoto, fabrics, finishes, gallery, INSTAGRAM, levels, models, PHONE,
+  TIKTOK, universes, whatsappLink, type Model, type Order, type Universe,
 } from "@/lib/maison";
 
 export const Route = createFileRoute("/")({
@@ -164,11 +164,17 @@ function Index() {
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a href={whatsappLink()} target="_blank" rel="noopener" className="lv-btn-ghost">WhatsApp</a>
             <a href={`tel:${PHONE}`} className="lv-btn-ghost">Appeler</a>
+            <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="lv-btn-ghost">Instagram</a>
+            <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="lv-btn-ghost">TikTok</a>
           </div>
         </div>
       </section>
       <footer className="flex flex-col items-center gap-4 border-t border-border py-12">
         <span className="logo-mark text-lg">Maison Théodora</span>
+        <div className="flex items-center gap-6 text-[13px]">
+          <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Instagram</a>
+          <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">TikTok</a>
+        </div>
         <p className="text-[12px] text-muted-foreground">Calavi, Bénin · © {new Date().getFullYear()}</p>
       </footer>
 

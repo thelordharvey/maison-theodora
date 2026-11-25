@@ -22,6 +22,8 @@ const cr = img("createur.jpg");
 
 export const WHATSAPP = "22944007806";
 export const PHONE = "+2290190431451";
+export const INSTAGRAM = "https://www.instagram.com/theodoraa_xx";
+export const TIKTOK = "https://www.tiktok.com/@theodoraa_xx6";
 export const creatorPhoto = cr.url;
 export const gallery = [p1.url, p2.url, p3.url, p4.url, p5.url, p6.url];
 
