@@ -46,13 +46,13 @@ function Index() {
   return (
     <div className="bg-background text-foreground">
       <header className={`fixed inset-x-0 top-0 z-40 transition-colors duration-500 ${scrolled ? "border-b border-border bg-background text-foreground" : "text-on-image"}`}>
-        <div className="grid h-16 grid-cols-3 items-center px-5 md:px-10">
+        <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 md:px-10">
           <button onClick={() => setMenu(true)} className="flex items-center gap-3 justify-self-start text-[13px]">
             <span className="flex flex-col gap-[5px]"><span className="h-px w-5 bg-current" /><span className="h-px w-5 bg-current" /></span>
             <span className="hidden sm:inline">Menu</span>
           </button>
-          <a href="#top" className="logo-mark justify-self-center whitespace-nowrap text-base md:text-2xl">Maison Théodora</a>
-          <a href="#atelier" className="justify-self-end text-[13px]">Créer ma pièce</a>
+          <a href="#top" className="logo-mark justify-self-center whitespace-nowrap text-sm tracking-[0.25em] md:text-lg md:tracking-[0.35em] xl:text-2xl">Maison Théodora</a>
+          <a href="#atelier" className="justify-self-end whitespace-nowrap text-[13px]"><span className="hidden sm:inline">Créer ma pièce</span><span className="sm:hidden">Créer</span></a>
         </div>
       </header>
 
@@ -232,12 +232,12 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
         <p className="mx-auto mt-5 max-w-lg text-[14px] text-muted-foreground">Choisissez votre modèle, vos matières, couleurs et finitions : le mannequin s'habille en direct. Chaque projet est étudié individuellement.</p>
       </div>
       <div className="grid gap-0 py-14 lg:grid-cols-2">
-        <div className="relative h-[65vh] lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)]">
-          <Viewer3D model={model} colorHex={colorHex} fabric={order.fabric} finishes={order.finishes} />
-          <div className="absolute left-5 top-5 flex items-center gap-3 bg-background p-2 pr-4">
+        <div className="flex h-[75vh] flex-col lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)]">
+          <div className="flex items-center gap-3 border-b border-border bg-background px-5 py-3">
             <img src={model.image} alt="" className="h-14 w-11 object-cover object-top" />
             <div><p className="text-[11px] text-muted-foreground">{model.number} · {model.universe}</p><p className="text-[14px]">{model.name}</p></div>
           </div>
+          <div className="min-h-0 flex-1"><Viewer3D model={model} colorHex={colorHex} fabric={order.fabric} finishes={order.finishes} /></div>
         </div>
         <div className="bg-background px-6 py-10 md:px-14">
           <ol className="mb-10 flex flex-wrap gap-x-5 gap-y-2 text-[12px]">
