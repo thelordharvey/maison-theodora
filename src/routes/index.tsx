@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { MusicToggle } from "@/components/MusicToggle";
 import { Viewer3D } from "@/components/Viewer3D";
 import {
   buildOrderMessage, colors, creatorPhoto, fabrics, finishes, gallery, INSTAGRAM, levels, models, PHONE,
@@ -46,13 +47,16 @@ function Index() {
   return (
     <div className="bg-background text-foreground">
       <header className={`fixed inset-x-0 top-0 z-40 transition-colors duration-500 ${scrolled ? "border-b border-border bg-background text-foreground" : "text-on-image"}`}>
-        <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-4 px-5 md:px-10">
-          <button onClick={() => setMenu(true)} className="flex items-center gap-3 justify-self-start text-[13px]">
-            <span className="flex flex-col gap-[5px]"><span className="h-px w-5 bg-current" /><span className="h-px w-5 bg-current" /></span>
-            <span className="hidden sm:inline">Menu</span>
-          </button>
-          <a href="#top" className="logo-mark justify-self-center whitespace-nowrap text-sm tracking-[0.25em] md:text-lg md:tracking-[0.35em] xl:text-2xl">Maison Théodora</a>
-          <a href="#atelier" className="justify-self-end whitespace-nowrap text-[13px]"><span className="hidden sm:inline">Créer ma pièce</span><span className="sm:hidden">Créer</span></a>
+        <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 md:px-10">
+          <div className="flex items-center gap-3 justify-self-start">
+            <button onClick={() => setMenu(true)} aria-label="Menu" className="flex items-center gap-3 text-[13px]">
+              <span className="flex flex-col gap-[5px]"><span className="h-px w-5 bg-current" /><span className="h-px w-5 bg-current" /></span>
+              <span className="hidden sm:inline">Menu</span>
+            </button>
+            <MusicToggle />
+          </div>
+          <a href="#top" className="logo-mark justify-self-center whitespace-nowrap text-[10px] tracking-[0.22em] sm:text-base sm:tracking-[0.42em] md:text-2xl">Maison Théodora</a>
+          <a href="#atelier" className="justify-self-end whitespace-nowrap text-[11px] sm:text-[13px]">Créer ma pièce</a>
         </div>
       </header>
 
@@ -190,12 +194,14 @@ function ModelSheet({ model, onClose, onOrder }: { model: Model; onClose: () => 
       <button onClick={onClose} className="fixed right-5 top-5 z-10 rounded-full bg-background px-4 py-2 text-[13px] border border-border">✕ Fermer</button>
       <div className="grid min-h-full lg:grid-cols-[1fr_1fr_420px]">
         <div className="h-[70vh] lg:h-screen lg:sticky lg:top-0 hidden lg:block"><img src={model.image} alt={model.name} className="h-full w-full object-cover object-top" /></div>
-        <div className="relative h-[70vh] lg:sticky lg:top-0 lg:h-screen">
-          <div className="lg:hidden absolute left-5 top-5 z-10 flex gap-2">
+        <div className="flex flex-col lg:sticky lg:top-0 lg:h-screen">
+          <div className="flex gap-2 px-5 pb-4 pt-5 lg:hidden">
             {(["3d", "photo"] as const).map((v) => <button key={v} data-active={view === v} onClick={() => setView(v)} className="chip bg-background">{v === "3d" ? "Mannequin 3D" : "Photo"}</button>)}
           </div>
-          {view === "photo" ? <img src={model.image} alt={model.name} className="h-full w-full object-cover object-top lg:hidden" /> : null}
-          <div className={view === "photo" ? "hidden lg:block h-full" : "h-full"}><Viewer3D model={model} /></div>
+          <div className="relative mx-4 h-[62svh] overflow-hidden lg:mx-0 lg:h-full">
+            {view === "photo" ? <img src={model.image} alt={model.name} className="h-full w-full object-cover object-top lg:hidden" /> : null}
+            <div className={view === "photo" ? "hidden lg:block h-full" : "h-full"}><Viewer3D model={model} /></div>
+          </div>
         </div>
         <div className="flex flex-col justify-center px-8 py-16">
           <p className="text-[12px] text-muted-foreground">{model.number} — Création · {model.universe}</p>
@@ -231,13 +237,15 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
         <h2 className="mt-5 font-display text-4xl md:text-6xl">Créez votre pièce.</h2>
         <p className="mx-auto mt-5 max-w-lg text-[14px] text-muted-foreground">Choisissez votre modèle, vos matières, couleurs et finitions : le mannequin s'habille en direct. Chaque projet est étudié individuellement.</p>
       </div>
-      <div className="grid gap-0 py-14 lg:grid-cols-2">
-        <div className="flex h-[75vh] flex-col lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)]">
-          <div className="flex items-center gap-3 border-b border-border bg-background px-5 py-3">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-0 py-14 lg:grid-cols-2">
+        <div className="relative flex flex-col pb-6 lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-4rem)] lg:pb-0">
+          <div className="relative z-10 mx-5 mb-5 flex w-fit items-center gap-3 bg-background p-2 pr-4 lg:absolute lg:left-5 lg:top-5 lg:m-0">
             <img src={model.image} alt="" className="h-14 w-11 object-cover object-top" />
             <div><p className="text-[11px] text-muted-foreground">{model.number} · {model.universe}</p><p className="text-[14px]">{model.name}</p></div>
           </div>
-          <div className="min-h-0 flex-1"><Viewer3D model={model} colorHex={colorHex} fabric={order.fabric} finishes={order.finishes} /></div>
+          <div className="mx-5 h-[62svh] overflow-hidden lg:mx-0 lg:h-full">
+            <Viewer3D model={model} colorHex={colorHex} fabric={order.fabric} finishes={order.finishes} />
+          </div>
         </div>
         <div className="bg-background px-6 py-10 md:px-14">
           <ol className="mb-10 flex flex-wrap gap-x-5 gap-y-2 text-[12px]">
