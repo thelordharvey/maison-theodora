@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { CreatorSlider } from "@/components/CreatorSlider";
+import { Intro } from "@/components/Intro";
 import { MusicToggle } from "@/components/MusicToggle";
+import { Savoir } from "@/components/Savoir";
 import { Viewer3D } from "@/components/Viewer3D";
 import {
-  buildOrderMessage, colors, creatorPhoto, fabrics, finishes, gallery, INSTAGRAM, levels, models, PHONE,
+  buildOrderMessage, colors, fabrics, finishes, gallery, heroPhoto, INSTAGRAM, levels, models, PHONE,
   TIKTOK, universes, whatsappLink, type Model, type Order, type Universe,
 } from "@/lib/maison";
 
@@ -11,7 +14,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Maison Théodora — Créations sur mesure & essayage 3D" },
-      { name: "description", content: "Découvrez les 13 créations de Maison Théodora, visualisez-les en 3D et composez votre pièce sur mesure." },
+      { name: "description", content: `Découvrez les ${models.length} créations de Maison Théodora, visualisez-les en 3D et composez votre pièce sur mesure.` },
       { property: "og:title", content: "Maison Théodora — Créations sur mesure" },
       { property: "og:description", content: "Collection couture, mannequin 3D et atelier de personnalisation." },
       { property: "og:type", content: "website" },
@@ -26,6 +29,7 @@ const emptyOrder: Order = { modelId: "", fabric: "", color: "", finishes: [], le
 function Index() {
   const [scrolled, setScrolled] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [intro, setIntro] = useState(true);
   const [filter, setFilter] = useState<Universe | "Tout">("Tout");
   const [open, setOpen] = useState<Model | null>(null);
   const [order, setOrder] = useState<Order>(emptyOrder);
@@ -34,7 +38,7 @@ function Index() {
     const on = () => setScrolled(window.scrollY > 40);
     on(); window.addEventListener("scroll", on); return () => window.removeEventListener("scroll", on);
   }, []);
-  useEffect(() => { document.body.style.overflow = open || menu ? "hidden" : ""; }, [open, menu]);
+  useEffect(() => { document.body.style.overflow = open || menu || intro ? "hidden" : ""; }, [open, menu, intro]);
 
   const startOrder = (m: Model) => {
     setOrder((o) => ({ ...o, modelId: m.id }));
@@ -46,17 +50,19 @@ function Index() {
 
   return (
     <div className="bg-background text-foreground">
+      <Intro onDone={setIntro} />
+      <MusicToggle className="fixed bottom-5 right-4 z-30" />
+      <a href={`tel:${PHONE}`} aria-label="Téléphoner" className="fixed bottom-5 left-4 z-30 flex h-12 w-12 items-center justify-center rounded-full bg-[#25a244] text-white shadow-lg transition hover:scale-105">
+        <svg viewBox="0 0 24 24" className="h-6 w-6" fill="currentColor" aria-hidden><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z" /></svg>
+      </a>
       <header className={`fixed inset-x-0 top-0 z-40 transition-colors duration-500 ${scrolled ? "border-b border-border bg-background text-foreground" : "text-on-image"}`}>
         <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 md:px-10">
-          <div className="flex items-center gap-3 justify-self-start">
-            <button onClick={() => setMenu(true)} aria-label="Menu" className="flex items-center gap-3 text-[13px]">
-              <span className="flex flex-col gap-[5px]"><span className="h-px w-5 bg-current" /><span className="h-px w-5 bg-current" /></span>
-              <span className="hidden sm:inline">Menu</span>
-            </button>
-            <MusicToggle />
-          </div>
-          <a href="#top" className="logo-mark justify-self-center whitespace-nowrap text-[10px] tracking-[0.22em] sm:text-base sm:tracking-[0.42em] md:text-2xl">Maison Théodora</a>
-          <a href="#atelier" className="justify-self-end whitespace-nowrap text-[11px] sm:text-[13px]">Créer ma pièce</a>
+          <button onClick={() => setMenu(true)} aria-label="Menu" className="flex items-center gap-3 justify-self-start text-[13px]">
+            <span className="flex flex-col gap-[5px]"><span className="h-px w-5 bg-current" /><span className="h-px w-5 bg-current" /></span>
+            <span className="hidden sm:inline">Menu</span>
+          </button>
+          <a href="#top" className="justify-self-center whitespace-nowrap font-display text-xl tracking-wide md:text-3xl">Maison Théodora</a>
+          <span />
         </div>
       </header>
 
@@ -73,7 +79,7 @@ function Index() {
 
       {/* HERO */}
       <section id="top" className="relative h-[100svh] overflow-hidden">
-        <img src={gallery[0]} alt="Théodora portant une de ses créations" className="absolute inset-0 h-full w-full object-cover object-top" />
+        <img src={heroPhoto} alt="Portrait de la créatrice" className="absolute inset-0 h-full w-full object-cover object-top" />
         <div className="absolute inset-0 bg-overlay" />
         <div className="relative flex h-full flex-col items-center justify-end pb-20 text-center text-on-image">
           <p className="eyebrow animate-fade-up">Création · Élégance · Identité</p>
@@ -94,7 +100,7 @@ function Index() {
       {/* UNIVERS */}
       <section id="univers" className="px-5 pb-24 md:px-10">
         <h2 className="mb-10 text-center text-2xl font-light">Choisir un univers</h2>
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {universes.map((u) => {
             const m = models.find((x) => x.universe === u)!;
             return (
@@ -136,12 +142,12 @@ function Index() {
 
       {/* CREATRICE */}
       <section id="maison" className="grid md:grid-cols-2">
-        <img src={creatorPhoto} alt="Théodora, créatrice" className="h-[70vh] w-full object-cover md:h-full" />
+        <CreatorSlider />
         <div className="flex flex-col justify-center bg-secondary px-8 py-20 md:px-20">
           <p className="eyebrow text-muted-foreground">La créatrice</p>
           <h2 className="mt-6 font-display text-4xl md:text-5xl">Une histoire de passion.</h2>
           <div className="mt-8 space-y-4 text-[15px] leading-relaxed text-muted-foreground">
-            <p>Je suis Tossou Flora Théodora Ahouéfa — Théodora. J'ai 20 ans et je vis à Calavi, au Bénin. Je crée des vêtements pour femmes et hommes, qui vous vont parfaitement et vous donnent confiance dès que vous les portez.</p>
+            <p>Je suis Tossou Flora Théodora Ahouéfa. J'ai 20 ans et je vis à Calavi, au Bénin. Je crée des vêtements pour femmes et hommes, qui vous vont parfaitement et vous donnent confiance dès que vous les portez.</p>
             <p>Étudiante en deuxième année à l'école de mode ESDAM, je prépare aussi une licence d'anglais. Ce double parcours m'a appris le sérieux, l'organisation et l'ouverture d'esprit.</p>
             <p>Je suis également mannequin photo : je comprends comment un vêtement tombe, bouge et se révèle une fois porté. Derrière chaque création, il y a aussi moi, devant l'objectif.</p>
           </div>
@@ -151,7 +157,7 @@ function Index() {
       <section className="py-20">
         <h2 className="mb-10 px-5 text-center text-2xl font-light">Derrière les créations</h2>
         <div className="flex snap-x gap-3 overflow-x-auto px-5 pb-4 md:px-10">
-          {gallery.map((g, i) => <img key={g} src={g} alt={`Théodora, séance ${i + 1}`} loading="lazy" className="h-[60vh] w-auto shrink-0 snap-start object-cover" />)}
+          {gallery.map((g, i) => <img key={g} src={g} alt={`Séance photo ${i + 1}`} loading="lazy" className="h-[60vh] w-auto shrink-0 snap-start object-cover" />)}
         </div>
       </section>
 
@@ -174,7 +180,6 @@ function Index() {
         </div>
       </section>
       <footer className="flex flex-col items-center gap-4 border-t border-border py-12">
-        <span className="logo-mark text-lg">Maison Théodora</span>
         <div className="flex items-center gap-6 text-[13px]">
           <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Instagram</a>
           <a href={TIKTOK} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">TikTok</a>
@@ -208,7 +213,7 @@ function ModelSheet({ model, onClose, onOrder }: { model: Model; onClose: () => 
           <h2 className="mt-3 text-3xl font-light">{model.name}</h2>
           <p className="mt-1 font-display text-xl italic text-muted-foreground">{model.subtitle}</p>
           <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">{model.description}</p>
-          <p className="mt-6 text-[12px] text-muted-foreground">Prix et délai sur devis, selon le tissu, les finitions et le niveau de personnalisation.</p>
+          <Savoir className="mt-8" />
           <div className="mt-10 flex flex-col gap-3">
             <button onClick={() => onOrder(model)} className="lv-btn">Personnaliser cette pièce</button>
             <a href={whatsappLink(`Bonjour, je suis intéressé(e) par la création ${model.name}.`)} target="_blank" rel="noopener" className="lv-btn-outline">Échanger sur WhatsApp</a>
@@ -236,6 +241,7 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
         <p className="eyebrow text-muted-foreground">Projet sur mesure</p>
         <h2 className="mt-5 font-display text-4xl md:text-6xl">Créez votre pièce.</h2>
         <p className="mx-auto mt-5 max-w-lg text-[14px] text-muted-foreground">Choisissez votre modèle, vos matières, couleurs et finitions : le mannequin s'habille en direct. Chaque projet est étudié individuellement.</p>
+        <Savoir className="mx-auto mt-10 max-w-2xl" />
       </div>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-0 py-14 lg:grid-cols-2">
         <div className="relative flex flex-col pb-6 lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-4rem)] lg:pb-0">
@@ -300,7 +306,7 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
             <Step title="Vos mesures & votre occasion">
               <div className="grid grid-cols-2 gap-x-6 gap-y-2">
                 <input className="field col-span-2" placeholder="Votre nom" value={order.name} onChange={(e) => set("name", e.target.value)} />
-                <input className="field" placeholder="Occasion (mariage, gala…)" value={order.occasion} onChange={(e) => set("occasion", e.target.value)} />
+                <input className="field" placeholder="Occasion (soirée, gala…)" value={order.occasion} onChange={(e) => set("occasion", e.target.value)} />
                 <input className="field" type="date" value={order.date} onChange={(e) => set("date", e.target.value)} />
                 {([["bust", "Tour de poitrine (cm)"], ["waist", "Tour de taille (cm)"], ["hips", "Tour de hanches (cm)"], ["height", "Taille (cm)"]] as const).map(([k, l]) => (
                   <input key={k} className="field" inputMode="numeric" placeholder={l} value={order[k]} onChange={(e) => set(k, e.target.value.replace(/[^0-9.,]/g, ""))} />
@@ -312,7 +318,8 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
           {step === 5 && (
             <Step title="Votre projet">
               <pre className="whitespace-pre-wrap bg-secondary p-5 font-sans text-[13px] leading-relaxed">{message}</pre>
-              <p className="mt-4 text-[12px] text-muted-foreground">Le prix et le délai dépendent de vos choix. Si vous avez une photo d'inspiration, joignez-la dans la conversation WhatsApp.</p>
+              <Savoir className="mt-6" />
+              <p className="mt-4 text-[12px] text-muted-foreground">Si vous avez une photo d'inspiration, joignez-la dans la conversation WhatsApp.</p>
               <a href={whatsappLink(message)} target="_blank" rel="noopener" className="lv-btn mt-6 w-full">Envoyer mon projet sur WhatsApp</a>
               <button onClick={() => { setOrder(emptyOrder); setStep(0); }} className="mt-4 w-full text-[12px] underline underline-offset-4">Recommencer</button>
             </Step>

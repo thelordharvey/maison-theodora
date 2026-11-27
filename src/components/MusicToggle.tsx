@@ -50,7 +50,7 @@ export function MusicToggle({ className = "" }: { className?: string }) {
         onClick={toggle}
         aria-label={on ? "Couper la musique" : "Activer la musique"}
         aria-pressed={on}
-        className={`relative flex h-8 w-8 items-center justify-center rounded-full border border-current text-[14px] leading-none ${className}`}
+        className={`flex h-11 w-11 items-center justify-center rounded-full border border-white/50 bg-black text-[18px] leading-none text-white shadow-lg ${className}`}
       >
         <span aria-hidden>♪</span>
         {!on && <span aria-hidden className="absolute h-px w-5 rotate-45 bg-current" />}

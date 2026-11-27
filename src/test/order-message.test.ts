@@ -3,8 +3,8 @@ import { buildOrderMessage, whatsappLink } from "@/lib/maison";
 
 describe("order message", () => {
   it("includes chosen model and measurements, skips blanks", () => {
-    const msg = buildOrderMessage({ modelId: "romantic", fabric: "Satin", color: "Rose", finishes: ["Perles"], level: "", name: "Awa", occasion: "", date: "", bust: "88", waist: "", hips: "", height: "", message: "" });
-    expect(msg).toContain("05 — Romantique");
+    const msg = buildOrderMessage({ modelId: "signature", fabric: "Satin", color: "Rose", finishes: ["Perles"], level: "", name: "Awa", occasion: "", date: "", bust: "88", waist: "", hips: "", height: "", message: "" });
+    expect(msg).toContain("01 — Signature");
     expect(msg).toContain("Tour de poitrine : 88 cm");
     expect(msg).not.toContain("Tour de taille");
   });
