@@ -213,7 +213,7 @@ function ModelSheet({ model, onClose, onOrder }: { model: Model; onClose: () => 
           <h2 className="mt-3 text-3xl font-light">{model.name}</h2>
           <p className="mt-1 font-display text-xl italic text-muted-foreground">{model.subtitle}</p>
           <p className="mt-6 text-[14px] leading-relaxed text-muted-foreground">{model.description}</p>
-          <Savoir className="mt-8" accent={model.color} tone="soft" />
+          <Savoir className="mt-8" />
           <div className="mt-10 flex flex-col gap-3">
             <button onClick={() => onOrder(model)} className="lv-btn">Personnaliser cette pièce</button>
             <a href={whatsappLink(`Bonjour, je suis intéressé(e) par la création ${model.name}.`)} target="_blank" rel="noopener" className="lv-btn-outline">Échanger sur WhatsApp</a>
@@ -241,7 +241,7 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
         <p className="eyebrow text-muted-foreground">Projet sur mesure</p>
         <h2 className="mt-5 font-display text-4xl md:text-6xl">Créez votre pièce.</h2>
         <p className="mx-auto mt-5 max-w-lg text-[14px] text-muted-foreground">Choisissez votre modèle, vos matières, couleurs et finitions : le mannequin s'habille en direct. Chaque projet est étudié individuellement.</p>
-        <Savoir className="mx-auto mt-10 max-w-2xl" accent={model.color} />
+        <Savoir className="mx-auto mt-10 max-w-2xl" />
       </div>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-0 py-14 lg:grid-cols-2">
         <div className="relative flex flex-col pb-6 lg:sticky lg:top-16 lg:block lg:h-[calc(100vh-4rem)] lg:pb-0">
@@ -318,7 +318,7 @@ function Atelier({ order, setOrder }: { order: Order; setOrder: React.Dispatch<R
           {step === 5 && (
             <Step title="Votre projet">
               <pre className="whitespace-pre-wrap bg-secondary p-5 font-sans text-[13px] leading-relaxed">{message}</pre>
-              <Savoir className="mt-6" accent={model.color} tone="soft" />
+              <Savoir className="mt-6" />
               <p className="mt-4 text-[12px] text-muted-foreground">Si vous avez une photo d'inspiration, joignez-la dans la conversation WhatsApp.</p>
               <a href={whatsappLink(message)} target="_blank" rel="noopener" className="lv-btn mt-6 w-full">Envoyer mon projet sur WhatsApp</a>
               <button onClick={() => { setOrder(emptyOrder); setStep(0); }} className="mt-4 w-full text-[12px] underline underline-offset-4">Recommencer</button>
