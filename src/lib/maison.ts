@@ -9,9 +9,7 @@ const m10 = img("modele10.jpg");
 const m11 = img("modele11.jpg");
 const p1 = img("photo1.jpg");
 const p2 = img("photo2.jpg");
-const p3 = img("photo3.jpg");
 const p4 = img("photo4.jpg");
-const p5 = img("photo5.jpg");
 const p6 = img("photo6.jpg");
 const hero = img("createur3.jpg");
 
@@ -21,7 +19,7 @@ export const INSTAGRAM = "https://www.instagram.com/theodoraa_xx";
 export const TIKTOK = "https://www.tiktok.com/@theodoraa_xx6";
 export const heroPhoto = hero.url;
 export const creatorPhotos = ["/maison/createur1.jpg", "/maison/createur2.jpg", "/maison/createur3.jpg"];
-export const gallery = [p1.url, p2.url, p3.url, p4.url, p5.url, p6.url];
+export const gallery = [p1.url, p2.url, p4.url, p6.url];
 
 /** Silhouette drives the 3D garment shape on the mannequin. */
 export type Silhouette = "vest" | "shirt" | "corset-gown" | "skirt-top" | "corset-mini" | "cutout-dress" | "peplum-trousers" | "flowing-gown" | "abaya" | "fitted-gown" | "cape-gown";

@@ -165,7 +165,7 @@ function Index() {
 
       {/* CONTACT */}
       <section id="contact" className="relative">
-        <img src={gallery[3]} alt="" className="absolute inset-0 h-full w-full object-cover" />
+        <img src={gallery[2]} alt="" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-overlay" />
         <div className="relative mx-auto max-w-xl px-6 py-32 text-center text-on-image">
           <p className="eyebrow">Contact</p>
